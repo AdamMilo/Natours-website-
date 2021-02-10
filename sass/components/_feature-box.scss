@@ -1,0 +1,37 @@
+.feature-box {
+  background-color: rgba($color-white, 0.8);
+  font-size: 1.5rem;
+  padding: 2.5rem;
+  text-align: center;
+  border-radius: 3px;
+  box-shadow: 0 1.5rem 4rem rgba($color-black, 0.15);
+  transition: transform 0.3s;
+
+  //@media
+  @include respond(tab-port) {
+    padding: 2rem;
+  }
+  //.feature-box:hover
+  &:hover {
+    transform: translateY(-1.5rem) scale(1.03);
+  }
+  //feature-box__icon
+  &__icon {
+    font-size: 6rem; //Icon is actually a font
+    margin-bottom: 0.5rem;
+
+    //Creating a linear gradient for the icon
+    display: inline-block; //to have the background only as wide as the icon
+    background: linear-gradient(to right, $color-primary-dark, $color-primary-light);
+    -webkit-background-clip: text;
+    color: transparent;
+
+    //@media
+    @include respond(tab-port) {
+      padding: 0;
+    }
+  }
+}
+.columnText {
+  background-color: orangered;
+}

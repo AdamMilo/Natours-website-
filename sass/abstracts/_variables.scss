@@ -1,0 +1,38 @@
+//SASS variables
+
+//COLORS
+$color-primary: #55c57a;
+$color-primary-light: #7ed56f;
+$color-primary-dark: #28b485;
+
+$color-secondary-light: #ffb900;
+$color-secondary-dark: #ff7730;
+
+$color-tertiary-light: #2998ff;
+$color-tertiary-dark: #5643fa;
+
+$color-grey-light1: #f7f7f7;
+$color-grey-light2: #eee;
+
+$color-gray-dark: #777;
+$color-gray-dark-2: #999;
+$color-gray-dark-3: #333;
+
+$color-black: #000;
+$color-white: #fff;
+
+//Font sizes
+$default-font-size: 1.6rem;
+
+//Border
+$border-radius-default: 3px;
+
+//Shadows
+$box-shadow-default: 0rem 1.5rem 4rem rgba($color-black, 0.15);
+// box-shadow: Xdirection Ydirection BlurDistance color
+
+//GRID variables
+$grid-width: 114rem;
+$gutter-horizontal: 8rem; //80px
+$gutter-horizontal-small: 6rem; //60px
+$gutter-vertical: 6rem; //60px

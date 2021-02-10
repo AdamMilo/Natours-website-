@@ -1,0 +1,225 @@
+.card {
+  //Functionality
+
+  //Perspective: makes the edges appear closer to the viewport
+  //If they rotate close to the center of an object during a transformation
+  //Closes distance(depth) of the object from the viewport
+  //Small value means the object gets REALLY CLOSE to the viewport
+  perspective: 80rem;
+  -moz-perspective: 80rem;
+  position: relative;
+  height: 52rem;
+
+  &__side {
+    height: 52rem;
+    width: 100%;
+    transition: all 0.8s ease;
+    position: absolute;
+    top: 0;
+    left: 0;
+    backface-visibility: hidden;
+    border-radius: 5px;
+    overflow: hidden;
+    //overflow hides the overflowing sharp edges of the image attached to the
+    //edges of the borders, flowing over the smooth border radius that is
+    //purely aeasthetic, and so, does not register as a border to any
+    //background elements with the background-size:cover property
+    box-shadow: 0 1.5rem 4rem rgba($color-black, 0.15);
+
+    &--front {
+      background-color: $color-white;
+    }
+    &--back {
+      transform: rotateY(180deg);
+
+      //Coloring the three different back of the card backgrounds
+      &-1 {
+        background-image: linear-gradient(to right bottom, $color-secondary-light, $color-secondary-dark);
+      }
+
+      &-2 {
+        background-image: linear-gradient(to right bottom, $color-primary-light, $color-primary-dark);
+      }
+      &-3 {
+        background-image: linear-gradient(to right bottom, $color-tertiary-light, $color-tertiary-dark);
+      }
+    }
+  }
+
+  //###ROTATING OUR CARD###
+  //When we conver over the side the front tourns to the
+  //back (180deg)
+  //And the back turns to the front (0deg) as it was
+  //already at 180deg, basically they switch
+  // FRONT: 0deg --> 180deg  BACK: 180deg --> 0deg
+
+  //.card:hover .card__side
+  &:hover &__side--front {
+    //shows the backside
+    transform: rotateY(-180deg);
+  }
+
+  &:hover &__side--back {
+    //shows the front siden
+    transform: rotateY(0);
+  }
+
+  //Styling the front side of the card
+  &__picture {
+    background-size: cover; //Makes the entire image fit its container
+    height: 24rem;
+    background-blend-mode: screen;
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+    border-top-right-radius: 60px;
+
+    &--1 {
+      background-image: linear-gradient(to right bottom, $color-secondary-light, $color-secondary-dark), url(../images/nat-5.jpg);
+    }
+    &--2 {
+      background-image: linear-gradient(to right bottom, $color-primary-light, $color-primary-dark), url(../images/nat-6.jpg);
+    }
+    &--3 {
+      background-image: linear-gradient(to right bottom, $color-tertiary-light, $color-tertiary-dark), url(../images/nat-7.jpg);
+    }
+  }
+
+  &__heading {
+    font-size: 2.8rem;
+    font-weight: 300;
+    text-transform: uppercase;
+    text-align: right;
+    color: $color-white;
+
+    position: absolute;
+    top: 14rem;
+    right: 2rem;
+    width: 75%;
+  }
+
+  //Not a child element or a modifier of the heading element
+  //Remember modifiers have two(--) and child elements have two(__)
+  &__heading-span {
+    padding: 1rem 1.5rem;
+    -webkit-box-decoration-break: clone;
+
+    &--1 {
+      background-image: linear-gradient(to right bottom, rgba($color-secondary-light, 0.85), rgba($color-secondary-dark, 0.85));
+    }
+
+    &--2 {
+      background-size: cover;
+      background-image: linear-gradient(to right bottom, rgba($color-primary-light, 0.85), rgba($color-primary-dark, 0.85));
+    }
+    &--3 {
+      background-image: linear-gradient(to right bottom, rgba($color-tertiary-light, 0.85), rgba($color-tertiary-dark, 0.85));
+    }
+  }
+
+  &__details {
+    padding: 3rem;
+    ul {
+      list-style: none;
+      width: 80%;
+      margin: 0 auto; //to center a block level el inside a block level element
+      li {
+        text-align: center;
+        font-size: 1.5rem;
+        padding: 1rem;
+
+        //Setting a bottom border to all but the last <li> tag
+        &:not(:last-child) {
+          border-bottom: 1px solid $color-grey-light2;
+        }
+      }
+    }
+  }
+
+  &__callToAction {
+    //Aligning an absolutely positioned
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    text-align: center; //Note that this aligns <a> anchor tag buttons as well
+  }
+
+  &__price-box {
+    text-align: center;
+    color: $color-white;
+    margin-bottom: 8rem;
+  }
+  &__price-only {
+    font-size: 1.4rem;
+    text-transform: uppercase;
+  }
+  &__price-value {
+    font-size: 6rem;
+    font-weight: 100; //Large font sizes look best when they are thin
+  }
+
+  //#######Media query redesign###########
+  @include respond(tab-port) {
+    //Functionality
+    height: auto;
+    border-radius: 3px;
+    background-color: $color-white;
+    box-shadow: 0 1.5rem 4rem rgba($color-black, 0.15);
+
+    &__side {
+      height: auto;
+      position: relative;
+      box-shadow: none;
+
+      &--back {
+        transform: rotateY(0);
+        height: auto;
+        -webkit-clip-path: polygon(0 20%, 100% 0, 100% 100%, 0 100%);
+        clip-path: polygon(0 20%, 100% 0, 100% 100%, 0 100%);
+      }
+    }
+
+    //.card:hover .card__side
+    &:hover &__side--front {
+      //shows the backside
+      transform: rotateY(0);
+    }
+
+    &:hover &__side--back {
+      //shows the front siden
+      transform: rotateY(0);
+    }
+
+    &__details {
+      padding: 1rem 3rem;
+
+      ul li {
+        font-size: 2.4rem;
+      }
+    }
+    &__callToAction {
+      //Aligning an absolutely positioned
+      position: relative;
+      top: 0;
+      left: 0;
+      transform: translate(0);
+      width: 100%;
+      padding: 7rem 4rem 4rem 4rem;
+    }
+
+    &__price-box {
+      text-align: center;
+      color: $color-white;
+      margin-bottom: 3rem;
+    }
+    &__price-only {
+      font-size: 4rem;
+      text-transform: uppercase;
+    }
+    &__price-value {
+      font-size: 6rem;
+      font-weight: 100; //Large font sizes look best when they are thin
+    }
+  }
+}

@@ -1,0 +1,104 @@
+.story {
+  width: 75%;
+  margin: 0 auto; //to center it
+  box-shadow: 0 3rem 6rem rgba($color-black, 0.1);
+  background-color: rgba($color-white, 0.25);
+  border-radius: 3px;
+  padding: 6rem;
+  padding-left: 9rem;
+  font-size: $default-font-size;
+  transform: skewX(-12deg);
+
+  @include respond(tab-port) {
+    //Less than 900px
+    width: 100%;
+    padding: 4rem;
+    padding-left: 7rem;
+  }
+  @include respond(phone) {
+    //less than 600px
+    transform: skewX(0);
+  }
+
+  //CREATING THE CIRCLE SHAPE
+  &__shape {
+    width: 15rem;
+    height: 15rem;
+    //Floating element to make elements around it shape around
+    //(shape outside) only works if the element is floated, and only works
+    // if the element has defined dimentions
+    //also note that the circle is here defining the layout behavior not
+    // the shape itself, to change the shape of the object, we still have to use clip path
+    float: left;
+    //Best way to move floated objects is to transform translate them
+    //manually skew(re-adjust) individual elements in the opposite direction of the parent container
+    border-radius: 50%;
+    transform: translateX(-3rem) skew(12deg);
+    position: relative;
+    //Fixing some animation glitches
+    backface-visibility: hidden;
+    overflow: hidden; 
+
+    //FeatureQuery(for clip-path and shape-outside property )
+    @supports (clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0)) {
+      -webkit-clip-path: circle(50% at 50% 50%); //(radius,Yposition X position)
+      clip-path: circle(50% at 50% 50%); //50%radius is 15rem/2 (width of the circle is 2radisu == 15rem
+      -webkit-shape-outside: circle(50% at 50% 50%);
+      shape-outside: circle(50% at 50% 50%); //exact circle
+      border-radius: none; //We don't need border radius if the clip path is supported
+    }
+
+    @include respond(phone) {
+      //less than 600px
+      transform: translateX(-3rem) skew(0);
+    }
+  }
+
+  //Images always and without exception need to have a width or a width
+  &__img {
+    transform: translateX(-4rem) scale(1.4);
+    height: 100%; //100% of the parent circle
+    //If the image does not display well in the container, try
+    //switching from heigt to width and vice-versa
+    transition: all 1s;
+    backface-visibility: hidden; //FIXES ANIMATION GLITCHES
+  }
+
+  &__text {
+    //manually skew(re-adjust) individual elements in the opposite direction of the parent container
+    transform: skew(12deg);
+
+    @include respond(phone) {
+      //less than 600px
+      transform: skew(0);
+    }
+  }
+
+  &__caption {
+    color: white;
+    text-transform: uppercase;
+    font-size: 1.7rem;
+    text-align: center;
+    transition: all 1s;
+    //We'll be using the absolute position centering method
+    //With the difference, that we want the element to initially appear bellow center
+    position: absolute;
+    //Align to the parent
+    top: 50%;
+    left: 50%;
+    //Setting the initial state (before the hover animation)
+    transform: translate(-50%, 20%);
+    opacity: 0;
+    backface-visibility: hidden;
+  }
+  &:hover &__caption {
+    //Center align with absolute positioning to the center of the image
+    transform: translate(-50%, -50%); //centering the element itself
+    opacity: 1;
+    backface-visibility: hidden;
+  }
+  &:hover &__img {
+    transform: translateX(-4rem) scale(1);
+    filter: blur(3px) brightness(80%);
+  }
+}

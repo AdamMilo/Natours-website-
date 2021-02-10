@@ -1,0 +1,27 @@
+//Positioning the video parent div component
+//to always be the width and height of the parent
+//as well as positioned exactly over the parent
+//(Make sure the parent is set to "relative"position
+// (and that the parent has a transparent background)
+//so that the video can be visible if it is placed behind the parent
+
+//first: we size and position the div that contains the video
+.background-video {
+  position: absolute;
+  top: 0; //relative to the parent
+  left: 0; //relative to the parent
+  width: 100%; //of the parent;
+  height: 100%; //of the parent;
+  z-index: -1; //to make it appear behind the parent
+  opacity: 0.15;
+
+  //Second: We size the video format itself to fit into its container
+  //Aking to actually selecting an img tag to size the image
+  // and not the div that contains the img
+  &__content {
+    height: 100%;
+    width: 100%;
+    object-fit: cover; //similar to background-size:cover;
+    //It makes the element fill its entire parent while still maintaining its aspect ratio
+  }
+}

@@ -1,0 +1,51 @@
+/*####HEADER#####*/
+.header {
+  position: relative;
+  /*keep the element height always at 95% of the viewport height*/
+  height: 85vh; /*95vh --> 95%vieport-height*/
+  background-image: linear-gradient(to right bottom, rgba($color-primary-light, 0.8), rgba($color-primary-dark, 0.8)), url(../images/hero-small.jpg);
+  background-size: cover; /*fits the element inside the full parent box*/
+  background-position: top; /*makes sure the top of the image stays at the top of the viewport*/
+
+  // FEATURE-Query that applies clip-path only to those browsers that support it
+  //Note that as an argument, clip path can have any value inserted into it, just as long
+  //as the values for the clip path are not empty, so that the browser recognizes it
+  @supports (clip-path: polygon(0 0)) or (-webkit-clip-path: polygon(0 0)) {
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+
+    height: 95vh; /*95vh --> 95%vieport-height*/
+    //Creates a longer element to loook more aesthetic with the clip path
+  }
+
+  //responsive-backgroundImage
+  //we want our high-resolution image to be loaded on a high resolution screen
+  @media (min-resolution: 192dpi) and (min-width: 37.5em),
+    (min-width: 125em),
+    (-webkit-min-device-pixel-ratio: 2) and (min-width: 37.5em),
+    (min-width: 125em) {
+    background-image: linear-gradient(to right bottom, rgba($color-primary-light, 0.8), rgba($color-primary-dark, 0.8)), url(../images/hero.jpg);
+  }
+  //media query
+  @include respond(phone) {
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 85vh, 0 100%);
+  }
+  &__logo-box {
+    position: absolute;
+    top: 4rem;
+    left: 4rem;
+  }
+  &__logo {
+    height: 3.5rem;
+  }
+  &__text-box {
+    /*center aligning (text-box) on its (header) parent*/
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* transform: translateY(-50%), translateX(-50%); */
+    text-align: center; /*aligns the text and the button to the center of itself*/
+  }
+}

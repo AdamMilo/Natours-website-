@@ -1,0 +1,91 @@
+/*we always refer to classes that are links with the :link pseudo class*/
+/*below we want our normal link state to look the same as our visited state*/
+/*meaning: not to change after the link was clicked*/
+.btn {
+  &, //.btn
+  &:link,
+  &:visited {
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 1.5rem 4rem;
+    display: inline-block;
+    border-radius: 20rem;
+    transition: all 0.2s;
+    position: relative;
+    font-size: 1.6rem; /*rem is now 10px, 1.6 rem is 16px*/
+
+    //Changes for the <button> element
+    border: none;
+    cursor: pointer;
+  }
+  &:hover {
+    transform: translateY(-0.3rem); /*related to the initial link state*/
+    box-shadow: 0 1rem 2rem rgba($color-black, 0.2); /*offsetX offesetY blur color*/
+    &::after {
+      transform: scaleX(1.4) scaleY(1.6); /*here we wanted our element to grow more on the y axis*/
+      opacity: 0;
+    }
+  }
+  &:active,
+  &:focus {
+    outline: none;
+    transform: translateY(-1px); /*related to the initial state(not hover)*/
+    box-shadow: 0 0.5rem 1rem rgba($color-black, 0.2);
+  }
+  &--white {
+    background-color: $color-white;
+    color: $color-gray-dark;
+  }
+  &--green {
+    background-color: $color-primary;
+    color: $color-white;
+  }
+  &::after {
+    /*to make the element visible we must define both content and display properties*/
+    content: "";
+    display: inline-block; /*here we set inline-block in order for it to display just like the button*/
+    /*the ::after element is treated like a child of the selector it is implemented on*/
+    height: 100%; /*of the .btn*/
+    width: 100%; /*of the .btn*/
+    border-radius: 20rem;
+    /*placing the ::after element exactly behind our button*/
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    transition: all 0.4s;
+  }
+  &--white::after {
+    background-color: $color-white;
+  }
+  /*styles the after element when we hover the .btn element*/
+
+  &--animated {
+    animation: moveInFromBottom 0.5s ease-out;
+    animation-delay: 0.75s;
+    animation-fill-mode: backwards;
+  }
+}
+
+.btn-text {
+  &:link,
+  &:visited {
+    font-size: $default-font-size;
+    color: $color-primary;
+    display: inline-block; /*to be able to use margin/padding*/
+    text-decoration: none;
+    border-bottom: 1px solid $color-primary;
+    padding: 3px; //It is okay for really small units to stay unresponsive(px)
+    transition: all 0.2s;
+  }
+  &:hover {
+    background-color: $color-primary;
+    color: white;
+    box-shadow: 0 1rem 2rem rgba($color-black, 0.2);
+    transform: translateY(-2px);
+  }
+  &:active {
+    transform: translateY(0); //Relative to the link state, not hove state
+    box-shadow: 0 0.5rem 1rem rgba($color-black, 0.2);
+  }
+}

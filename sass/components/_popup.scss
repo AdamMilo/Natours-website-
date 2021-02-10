@@ -1,0 +1,188 @@
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba($color-black, 0.8);
+  z-index: 5000;
+
+  //Making the element hidden before it pops up
+  opacity: 0;
+  visibility: hidden;
+
+  //Animating the popup
+  transition: all 0.5s;
+
+  //Adding on optional style if it is browser supported
+  @supports (-webkit-backdrop-filter: blur(10px)) or (orbackdrop-filter: blur(20px)) {
+    //Backdrop filter does not work in chrome(but only on safary)
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(20px);
+    background-color: rgba($color-black, 0.3);
+  }
+
+  @include respond(phone) {
+    text-align: center;
+  }
+  .heading-secondary {
+    @include respond(phone) {
+      color: $color-white !important;
+    }
+  }
+  &__content {
+    @include absCenter; //Absolute center mixin
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 75%;
+    background-color: $color-white;
+    box-shadow: 0 2rem 4rem rgba($color-black, 0.2);
+    z-index: 5500; //has to have a larger index than dark background
+    border-radius: 3px;
+    //making the images not overflow over our border radius
+    overflow: hidden;
+    //Making the container act as a table
+    //and children containers act as cell
+    display: table;
+
+    //Defining the initial (un-poped state) of our popup content card
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.25);
+
+    transition: all 0.5s 0.2s; //added .2s delay
+    //so overlay first appears, then our element starts working
+
+    @include respond(tab-land) {
+      width: 85%;
+    }
+    @include respond(tab-port) {
+      width: 95%;
+    }
+    @include respond(phone) {
+      color: $color-white !important;
+    }
+  }
+
+  //1 third of the container
+  &__left {
+    width: 33.333333333%;
+    display: table-cell;
+
+    &__left:not(:last-child) {
+      @include respond(phone) {
+        margin-bottom: 2rem;
+      }
+    }
+    @include respond(tab-land) {
+      vertical-align: middle;
+    }
+    @include respond(phone) {
+      display: none;
+    }
+  }
+  //2 thirds of the container
+  &__right {
+    width: 66.6666666667%; //To make the left and right element roughly 100%
+    display: table-cell;
+    vertical-align: middle;
+    padding: 3rem 5rem;
+
+    @include respond(tab-land) {
+      width: 85%;
+      padding: 1rem 1rem;
+    }
+    @include respond(tab-port) {
+      padding: 1rem 1rem;
+    }
+    @include respond(phone) {
+      background-image: linear-gradient(to right top, rgba($color-primary-light, 0.6), $color-primary-dark), url(../images/nat-8.jpg);
+      background-size: cover;
+    }
+  }
+
+  &__img {
+    display: block;
+    width: 100%; //makes them the parent container width
+    @include respond(tab-land) {
+    }
+  }
+  &__text {
+    font-size: 1.4rem;
+    margin-bottom: 4rem;
+
+    //Creating text columns
+    -moz-column-count: 2;
+    -webkit-column-count: 2;
+    -moz-column-gap: 4rem; //default 1em --> font size of the current element
+    column-gap: 4.5rem;
+    -moz-column-rule: 1px solid $color-gray-dark-2;
+    column-rule: 1px solid $color-gray-dark-2;
+
+    -ms-hyphens: auto; //ms explorer - or ms edge
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto; //chrome and safari
+    hyphens: auto;
+    //automatically sets the hipyhens (text-break lines) whenever a word breaks into a new line
+
+    @include respond(tab-land) {
+      font-size: 0.7em;
+    }
+    @include respond(tab-port) {
+      font-size: 0.7em;
+    }
+    @include respond(phone) {
+      color: $color-white;
+      text-align: justify;
+      line-height: 1.4em;
+      column-gap: 4.5rem;
+      padding: 0 1rem;
+      hyphens: auto;
+      column-rule: 1px solid $color-white;
+    }
+  }
+
+  //DEFINING THE POPUP - OPEN states
+  //.popup:target
+  &:target {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  //Animating the content child element of the child element
+  //so that it pops out to the screen when the popup becomes the target
+  &:target &__content {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    //Making sure to keep the translate values from our mixin
+  }
+
+  //CLOSE BUTTON
+  &__close {
+    &:visited,
+    &:link {
+      color: $color-gray-dark;
+      position: absolute;
+      top: 2.5rem;
+      right: 2.5rem;
+      font-size: 3rem;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.2s;
+      line-height: 1;
+      &:hover {
+        color: $color-primary;
+      }
+      @include respond(phone) {
+        font-size: 1.2em;
+        font-weight: bold;
+        border-radius: 60%;
+        padding: 5px 8px;
+        top: 1rem;
+        right: 1rem;
+        background-color: $color-white;
+      }
+    }
+  }
+}

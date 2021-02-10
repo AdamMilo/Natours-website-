@@ -1,0 +1,42 @@
+/*Animations */
+/*this animation moves the element to the left, with a slight sway before stopping*/
+@keyframes moveInFromLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(
+      -10rem
+    ); /*starts far away to the right from the original position*/
+  }
+  80% {
+    transform: translateX(1rem);
+    /*continues a bit to the left over the original position*/
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0); /*returns to the original element position*/
+  }
+}
+@keyframes moveInFromRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  80% {
+    transform: translate(-10px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+@keyframes moveInFromBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  80% {
+    transform: translateY(-1rem);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,40 @@
+/*Performing the basic reset*/
+html {
+  //This defines what 1rem is
+  //if 1rem = 10px then the percentage of 16px(100%)
+  //is (100/16)*100 = 62.5%
+  font-size: 62.5%; /*62.5% of ( 100% == 16px) is 10px */
+
+  @include respond(tab-land) {
+    //width < 1200px
+    font-size: 56.25%; //we want 1rem  to be 9px   (9/16px)*100 = 56.25%
+  }
+  @include respond(tab-port) {
+    //width<900px
+    font-size: 50%; //we want 1rem = 8px   (8/16px)*100 = 50%
+  }
+  @include respond(big-desktop) {
+    font-size: 75%; //we want 1rem to be 12px (12/17)*100 = 75%
+  }
+}
+
+body {
+  box-sizing: border-box;
+  padding: 3rem; /*padding will not get inherited, it just applies for the body element*/
+  @include respond(tab-port) {
+    //width<900px
+    padding: 0;
+  }
+}
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+::selection {
+  background-color: $color-primary;
+  color: white;
+}

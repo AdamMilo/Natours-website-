@@ -1,0 +1,62 @@
+@mixin clearfix {
+  &::after {
+    content: ""; //empty so we don't see the element
+    display: table;
+    clear: both; //clears both float left and right
+  }
+}
+@mixin absCenter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+}
+
+//MEDIA QUERY MANAGER
+/*
+0 -600px:  Phone
+600-900px: Tablet portrait
+900-1200px: Tablet landscape
+[1200- 1800] is where our normal styles apply
+ 1800px +: Big desktop
+
+   $breakpoint argument choises:
+   - phone
+   - tab-port
+   - tab-land
+   - big-desktop
+
+   ORDER: Base + typography> general layout + grid > oage layout > components
+  */
+
+@mixin respond($breakpoint) {
+  //Our mixin manager checks what breakpoint parameter
+  //text is included, and applies only the mixin content
+  //that corresponds to one of the four available breakpoints
+
+  //Device with (px) converted to em by dividing px-value /16
+  @if $breakpoint == phone {
+    @media (max-width: 37.5em) {
+      //apply on devices lesserless than 600px
+      @content;
+    }
+  }
+  @if $breakpoint == tab-port {
+    @media (max-width: 56.25em) {
+      //apply on devices lesserless than 900px
+      @content;
+    }
+  }
+  @if $breakpoint == tab-land {
+    @media (max-width: 75em) {
+      //apply on devices lesser than 1200px
+      @content;
+    }
+  }
+  @if $breakpoint == big-desktop {
+    @media (min-width: 112.5em) {
+      // apply on devices  of 1800px or more
+      @content;
+    }
+  }
+}

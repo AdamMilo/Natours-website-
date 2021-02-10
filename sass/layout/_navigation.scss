@@ -1,0 +1,222 @@
+.navigation {
+  //#NAVIGATION FUNCTIONALITY
+  &__checkbox {
+    display: none; //hiding the default checkbox
+  }
+  &__button {
+    background-color: $color-white;
+    //We are making the button larger than the background in order
+    // to make the background not show (peek) behind it.
+    height: 7rem;
+    width: 7rem;
+    position: fixed;
+    top: 6rem;
+    right: 6rem;
+    border-radius: 50%;
+    box-shadow: 0 1rem 3rem rgba($color-black, 0.1);
+    z-index: 2000; //higher z-index to go over its background
+
+    cursor: pointer;
+    text-align: Center;
+
+    //media query
+    @include respond(tab-port) {
+      top: 4;
+      right: 4rem;
+      height: 5rem;
+      width: 5rem;
+    }
+    @include respond(phone) {
+      top: 3rem;
+      right: 3rem;
+      height: 5rem;
+      width: 5rem;
+    }
+  }
+
+  //Styling the circular background of our nav-bar toggle button
+  &__background {
+    height: 6rem;
+    width: 6rem;
+    border-radius: 50%;
+    position: fixed;
+    top: 6.5rem;
+    right: 6.5rem;
+    background-image: radial-gradient($color-primary-light, $color-primary-dark);
+    z-index: 1000; //Works only on elements that have a defined position
+
+    transition: all 0.8s cubic-bezier(0.83, 0, 0.17, 1); //ANIMATION
+    //transform: scale(80); //placehodler location
+
+    //media query
+    @include respond(tab-port) {
+      top: 6.4rem;
+      right: 4.4rem;
+      height: 3.5rem;
+      width: 3.5rem;
+    }
+    @include respond(phone) {
+      top: 3.5rem;
+      right: 3.5rem;
+      height: 3.5rem;
+      width: 3.5rem;
+    }
+  }
+
+  //Nav contains our list with nav bar clickable links
+  &__nav {
+    height: 100vh; //100% of the viewport (if it was 100% it would mean of the parent)
+
+    //positioning the nav over the entire screen
+    position: fixed; //makes the nav always display on screen
+    //Make the element start at the begining of the screen
+    top: 0;
+    left: 0;
+    z-index: 1500;
+    //More visible than the background, less visible than the button
+    //So the button background is hidden, but the button is visible in the nav
+
+    //--Setting the initial state to the background to disappear
+    opacity: 0; //this makes the elements invisible but clickable and still on screen
+    width: 0; //this removes the nav elements from the screen completely
+
+    transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    //@media
+    @include respond(phone) {
+      transition: all 0.1s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s;
+    }
+  }
+  &__list {
+    //centering the list inside the nav container
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    list-style: none;
+    text-align: center;
+    width: 100%;
+  }
+  &__item {
+    margin: 1rem;
+  }
+  &__link {
+    &:link,
+    &:visited {
+      display: inline-block; //Only now the padding will be applied
+      //Also, only inline-blocks can have transforms applied to them
+      font-size: 3rem;
+      font-weight: 300;
+      padding: 1rem 2rem;
+      color: $color-white;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: all 0.3s ease-in;
+    }
+    &:hover,
+    &:active {
+      //Making the full-color-gradient animation for nav links
+      background-image: linear-gradient(120deg, transparent 0%, transparent 50%, white 50%);
+      background-size: 225%;
+      background-position: 100%; //works just like translate on X-axis
+      color: $color-primary;
+    }
+    span {
+      display: inline-block;
+      margin-right: 1rem;
+    }
+  }
+
+  //The checkbox hack
+  //Using the label linked to the checkbox to check/uncheck the now invisible checkbox
+  //So that we can, based on the checkbox state(modified by clicking the label)
+  //change the style of the element(in this case, the nav menu button, and display of the nav
+  //when the checkbox is checked
+
+  //If the checkbox is checked, select the background sibling and apply these rules
+  &__checkbox:checked ~ &__background {
+    transform: scale(80); //displays the nav background overlay over the whole viewport
+  }
+  &__checkbox:checked ~ &__nav {
+    //Displays the nav elements(links)
+    opacity: 1; //makes them visible
+    width: 100%; //makes them have their full default clickable size
+  }
+
+  //##NAVIGATION ICON###
+  &__icon {
+    position: relative;
+    margin-top: 3.5rem;
+    //Defining the shared style between
+    //the icon line and it's before/after pseudo elements
+    &,
+    &::before,
+    &::after {
+      z-index: 50000;
+      width: 3rem;
+      height: 2.5px; //we don't want the height of our nav lines ever to change
+      background-color: $color-gray-dark-3;
+      display: inline-block; //we want them all to display as inline blocks
+
+      //media query
+      @include respond(tab-port) {
+        bottom: 1.2rem;
+        height: 2.5px;
+        width: 2.5rem;
+      }
+      @include respond(phone) {
+        height: 2.5px;
+        width: 3rem;
+      }
+    }
+
+    //Defining the shared position property between pseudo-lines
+    &::before,
+    &::after {
+      content: ""; //content needs to be defined for the two pseudo lines
+      position: absolute;
+      display: inline-block;
+      left: 0;
+      transition: all 0.2s;
+    }
+    //positioning the top pseudo line
+    &::before {
+      top: -0.8rem;
+    } //moving it above the reference icon-line
+    &::after {
+      bottom: -0.8rem;
+    } //moving it below the reference icon-line
+  }
+
+  //This simple selector is possible because the icon is a child element
+  //of the button
+  &__button:hover &__icon::before {
+    top: -1rem;
+  }
+  &__button:hover &__icon::after {
+    bottom: -1rem;
+  }
+
+  //If the box is checked get the button sibling and target it's child-icon's after element
+  &__checkbox:checked ~ &__button &__icon::after {
+    transform: rotate(220deg);
+    //We want them to rotate 40deg from where they are
+    //But before they stop at the 40deg angle, we want them to rotate 180deg
+    //So it looks super flashy!
+    top: 0;
+    bottom: 0;
+  }
+  &__checkbox:checked ~ &__button &__icon::before {
+    transform: rotate(-220deg);
+    top: 0;
+    bottom: 0;
+  }
+  &__checkbox:checked ~ &__button &__icon {
+    background-color: transparent;
+    //If we change the size or position of this icon element
+    //we will also change the size of the before and after elements
+    //We don't want to do that, as that complicates things
+    //So instead of changing the icon element, we simply make it disappear
+    //by turning it transparent
+  }
+}
